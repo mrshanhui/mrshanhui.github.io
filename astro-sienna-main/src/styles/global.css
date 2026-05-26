@@ -24,12 +24,12 @@
 
 @layer base {
 	:root {
-		--font-serif: "Newsreader Variable", "Iowan Old Style", Georgia, serif;
+		--font-serif: "Newsreader Variable", "Songti SC", "Iowan Old Style", Georgia, serif;
 		--font-sans: "Inter Variable", -apple-system, system-ui, sans-serif;
 		--font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
 
 		/* Layout tokens — shared across home, posts archive, and article pages */
-		--reading-width: 64ch;          /* article body & long prose blocks */
+		--reading-width: 75ch;          /* article body & long prose blocks */
 		--rail-width: 110px;            /* left date column on timeline lists */
 		--rail-gap: 36px;               /* gap between rail and post body */
 	}
@@ -48,7 +48,7 @@
 
 		/* Concrete-color palette tokens (see file header for rationale) */
 		--paper: #fbf6ec;
-		--hairline: #d9cfb9;
+		--hairline: #e4ddcd;
 		--faint: #b8ad9b;
 		--accent-soft: rgba(138, 68, 35, 0.1);
 		--accent-soft-strong: rgba(138, 68, 35, 0.18);
@@ -404,4 +404,15 @@ ul.work-list a:focus-visible {
 		animation-iteration-count: 1 !important;
 		scroll-behavior: auto !important;
 	}
+}
+
+/* ==highlight== → <mark> */
+mark {
+	background-color: hsl(50.15deg 76.47% 50% / 50%);
+	color: inherit;
+	border-radius: 2px;
+	padding: 3px 2px
+}
+:root[data-theme="dark"] mark {
+	background-color: rgba(200, 151, 97, 0.22);
 }

@@ -15,6 +15,7 @@ import remarkDirective from "remark-directive";
 import remarkMath from "remark-math";
 import { rehypeBasePath } from "./src/plugins/rehype-base-path";
 import { remarkAdmonitions } from "./src/plugins/remark-admonitions";
+import { remarkMark } from "./src/plugins/remark-mark";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time";
 
 import rehypeExternalLinks from "rehype-external-links";
@@ -27,7 +28,7 @@ const BASE_PATH = process.env.BASE_PATH || "/";
 const START_URL = BASE_PATH.endsWith("/") ? BASE_PATH : `${BASE_PATH}/`;
 
 export default defineConfig({
-	site: "https://anjaygoel.github.io",
+	site: "https://mrshanhui.github.io",
 	base: BASE_PATH,
 	image: {
 		domains: ["webmention.io"],
@@ -104,7 +105,7 @@ export default defineConfig({
 				},
 			],
 		],
-		remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions, remarkMath],
+		remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions, remarkMath, remarkMark],
 		remarkRehype: {
 			footnoteLabelProperties: {
 				className: [""],

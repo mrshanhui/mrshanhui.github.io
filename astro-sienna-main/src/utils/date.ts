@@ -13,13 +13,13 @@ const stampFormatter = new Intl.DateTimeFormat("en-US", {
 	year: "numeric",
 });
 
-const bylineFormatter = new Intl.DateTimeFormat("en-GB", {
+const bylineFormatter = new Intl.DateTimeFormat("en-US", {
 	day: "numeric",
-	month: "long",
+	month: "short",
 	year: "numeric",
 });
 
-const eyebrowFormatter = new Intl.DateTimeFormat("en-US", {
+const eyebrowFormatter = new Intl.DateTimeFormat("zh-CN", {
 	month: "long",
 	year: "numeric",
 });

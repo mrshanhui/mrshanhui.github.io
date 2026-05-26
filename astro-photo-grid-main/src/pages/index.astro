@@ -41,6 +41,8 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
   import { Fancybox } from "@fancyapps/ui/dist/fancybox/";
 
   Fancybox.bind("[data-fancybox]", {
+    wheel: "close",          // 滚轮触发关闭
+    dragToClose: true,       // 默认已开启，拖拽也能关闭
     theme: "auto",
     mainStyle: {
       "--f-button-width": "44px",

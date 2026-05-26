@@ -23,7 +23,7 @@ const idx = sortedAll.findIndex((p) => p.id === post.id);
 const newerPost = idx > 0 ? sortedAll[idx - 1] : undefined;
 const olderPost = idx >= 0 && idx < sortedAll.length - 1 ? sortedAll[idx + 1] : undefined;
 const {
-	data: { coverImage, description, ogImage, publishDate, title, updatedDate, tags, draft },
+	data: { coverImage, description, ogImage, publishDate, title, updatedDate, tags, draft, dropCap },
 	id: slug,
 } = post;
 const socialImage = ogImage ?? `/og-image/${slug}.png`;
@@ -122,7 +122,7 @@ const giscusThemes = import.meta.env.PROD
 				<hr class="rule" />
 			)}
 
-			<article class="post-article">
+			<article class="post-article" data-drop-cap={dropCap ? "true" : "false"}>
 				<slot />
 			</article>
 
@@ -248,7 +248,7 @@ const giscusThemes = import.meta.env.PROD
 	.byline {
 		font-family: var(--font-serif);
 		font-style: italic;
-		font-size: 16.5px;
+		font-size: 16px;
 		color: hsl(var(--theme-text-muted));
 		margin: 0 0 14px;
 		line-height: 1.5;
@@ -433,6 +433,7 @@ const giscusThemes = import.meta.env.PROD
 	.post-article {
 		font-family: var(--font-serif);
 		color: hsl(var(--theme-text));
+		text-align: justify;
 	}
 
 	.post-article > p {
@@ -444,7 +445,7 @@ const giscusThemes = import.meta.env.PROD
 		word-wrap: break-word;
 		overflow-wrap: anywhere;
 	}
-	.post-article > p:first-of-type::first-letter {
+	.post-article[data-drop-cap="true"] > p:first-of-type::first-letter {
 		font-family: var(--font-serif);
 		font-style: italic;
 		font-weight: 500;
@@ -461,10 +462,21 @@ const giscusThemes = import.meta.env.PROD
 	}
 	.post-article p strong,
 	.post-article strong {
-		font-weight: 500;
+		font-weight: 800;
 		color: hsl(var(--theme-text));
 	}
 
+	.post-article h1 {
+		font-family: var(--font-serif);
+		font-weight: 500;
+		font-size: 34px;
+		line-height: 1.18;
+		letter-spacing: -0.018em;
+		color: hsl(var(--theme-text));
+		margin: 64px 0 22px;
+		word-wrap: break-word;
+		overflow-wrap: anywhere;
+	}
 	.post-article h2 {
 		font-family: var(--font-serif);
 		font-weight: 500;
@@ -518,7 +530,7 @@ const giscusThemes = import.meta.env.PROD
 		background: var(--paper);
 		border: 1px solid var(--hairline);
 		padding: 1px 6px;
-		border-radius: 3px;
+		border-radius: 6px;
 		color: hsl(var(--theme-text-muted));
 		font-variant-numeric: tabular-nums;
 		font-feature-settings: "tnum";
@@ -619,7 +631,7 @@ const giscusThemes = import.meta.env.PROD
 		border-left: 2px solid hsl(var(--theme-accent));
 		font-style: italic;
 		color: hsl(var(--theme-text-muted));
-		font-size: 18px;
+		font-size: 17px;
 		line-height: 1.65;
 		max-width: var(--reading-width);
 	}
@@ -763,6 +775,7 @@ const giscusThemes = import.meta.env.PROD
 			font-size: 17px;
 			line-height: 1.72;
 		}
+		.post-article h1 { font-size: 28px; margin: 50px 0 18px; }
 		.post-article h2 { font-size: 23px; margin: 44px 0 16px; }
 		.post-article h3 { font-size: 18.5px; margin: 30px 0 12px; }
 		.post-article :not(pre) > code { font-size: 13.5px; }
@@ -775,6 +788,7 @@ const giscusThemes = import.meta.env.PROD
 			font-size: 16px;
 			line-height: 1.7;
 		}
+		.post-article h1 { font-size: 24px; margin: 40px 0 14px; }
 		.post-article h2 { font-size: 20px; margin: 36px 0 14px; }
 		.post-article h3 { font-size: 17px; margin: 26px 0 10px; }
 		.post-article ul { padding-left: 0; }

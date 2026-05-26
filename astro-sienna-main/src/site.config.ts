@@ -2,27 +2,26 @@ import type { SiteConfig } from "@/types";
 import type { AstroExpressiveCodeOptions } from "astro-expressive-code";
 
 export const siteConfig: SiteConfig = {
-	author: "Tan",
+	author: "炭",
 	date: {
-		locale: "en-US",
+		locale: "zh-CN",
 		options: {
 			day: "numeric",
 			month: "short",
 			year: "numeric",
 		},
 	},
-	description:
-		"Halo, Here",
-	lang: "en-US",
-	ogLocale: "en_US",
+	description: "Halo, Here",
+	lang: "zh-CN",
+	ogLocale: "zh_CN",
 	sortPostsByUpdatedDate: false,
 	title: "山灰",
-	hideThemeCredit: false,
+	hideThemeCredit: true,
 	profile: {
 		name: "山灰",
-		email: "dp-seek@outlook.com",
+		email: "shanhuiatan@gmail.com",
 		github: "https://github.com/mrshanhui",
-		linkedin: "https://www.linkedin.com/in/example/",
+		// linkedin: "https://www.linkedin.com/in/example/",
 		jobTitle: "Software Engineer",
 		employer: "N.Studio",
 		employerUrl: "https://example.com",
@@ -57,6 +56,10 @@ export const menuLinks: { path: string; title: string }[] = [
 		title: "Showcase",
 	},
 	{
+		path: "/photo/",
+		title: "Photo",
+	},
+	{
 		path: "/about/",
 		title: "About",
 	},
@@ -65,17 +68,17 @@ export const menuLinks: { path: string; title: string }[] = [
 export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
 	styleOverrides: {
 		borderRadius: "4px",
-		codeBackground: ({ theme }) => (theme.type === "light" ? "#f0e9d6" : "#1a1715"),
+		codeBackground: ({ theme }) => (theme.type === "light" ? "#f4efe6" : "#1a1715"),
 		codeFontFamily:
 			'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;',
 		codeFontSize: "0.875rem",
 		codeLineHeight: "1.7142857rem",
 		codePaddingInline: "1rem",
 		frames: {
-			editorActiveTabBackground: ({ theme }) => (theme.type === "light" ? "#f0e9d6" : "#1a1715"),
+			editorActiveTabBackground: ({ theme }) => (theme.type === "light" ? "#f4efe6" : "#1a1715"),
 			editorTabBarBackground: ({ theme }) => (theme.type === "light" ? "#ebe3cd" : "#15120e"),
 			frameBoxShadowCssValue: "none",
-			terminalBackground: ({ theme }) => (theme.type === "light" ? "#f0e9d6" : "#1a1715"),
+			terminalBackground: ({ theme }) => (theme.type === "light" ? "#f4efe6" : "#1a1715"),
 			terminalTitlebarBackground: ({ theme }) => (theme.type === "light" ? "#ebe3cd" : "#15120e"),
 		},
 		uiLineHeight: "inherit",
@@ -88,6 +91,6 @@ export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
 		}
 		return `[data-theme="${theme.name}"]`;
 	},
-	themes: ["min-dark", "min-light"],
+	themes: ["one-dark-pro", "one-light"],
 	useThemedScrollbars: false,
 };
