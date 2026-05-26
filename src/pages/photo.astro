@@ -1,0 +1,111 @@
+---
+import { getImage } from "astro:assets";
+import Gallery from "@/components/photo/Gallery";
+import type { PhotoItem } from "@/components/photo/Gallery";
+import PageLayout from "@/layouts/Base.astro";
+import { photoCaptions } from "@/data/photo-captions";
+
+const imageModules = import.meta.glob<{ default: ImageMetadata }>(
+  "../data/photos/*.{jpg,jpeg,png,webp}",
+);
+
+const photos: PhotoItem[] = await Promise.all(
+  Object.entries(imageModules).map(async ([_path, loader]) => {
+    const { default: img } = await loader();
+
+    // Single optimized WebP — used for both the grid thumbnail and the viewer.
+    //
+    // Why one URL instead of two:
+    //   zmage's cover-geometry animation (expand from thumbnail position)
+    //   requires the cover src and set item src to be the same URL.
+    //   With different URLs zmage can't match them and falls back to the
+    //   center-open animation. Same URL also means the viewer image is
+    //   already in the browser cache → instant open on click.
+    //
+    // width 1600 is large enough for any screen up to ~1600px; quality 88
+    // is visually indistinguishable from the original JPEG at screen size.
+    // All processing happens once at build time — zero runtime cost.
+    const optimized = await getImage({
+      src: img,
+      // width: Math.min(img.width, 1600),
+      format: "webp",
+      quality: 88,
+    });
+
+    // [作者名]-[随机ID]-unsplash.jpg    
+    // 第一步：去掉扩展名，得到 stem（文件名主体）
+    // Stem = filename without extension, e.g. "aaron-burden-rFjyEaAFbfA-unsplash"
+    const stem = _path.split("/").pop()!.replace(/\.[^.]+$/, "");
+    // 第二步：去掉 "-随机ID-unsplash" 后缀（标准 Unsplash 格式）
+    // 正则：连字符 + 8位以上字母数字 + -unsplash
+    // "aaron-burden-rFjyEaAFbfA-unsplash" → "aaron-burden"
+    // 第三步：兜底，去掉单独的 "-unsplash" 后缀
+    // 针对没有随机ID、直接叫 "xxx-unsplash" 的情况
+    // 第四步：把连字符换成空格，变成可读的 alt 文字
+    // "aaron-burden" → "aaron burden"    
+    const alt = stem
+      .replace(/-[a-zA-Z0-9]{8,}-unsplash$/, "")
+      .replace(/-unsplash$/, "")
+      .replace(/-/g, " ");
+
+    return {
+      src: optimized.src,
+      alt,
+      width: img.width,
+      height: img.height,
+      // Caption is looked up by filename stem in src/data/photo-captions.ts.
+      // If no entry exists the caption is omitted from the viewer.
+      caption: photoCaptions[stem] ?? undefined,
+    };
+  }),
+);
+---
+
+<PageLayout meta={{ title: "Photo" }}>
+  <section class="photo" aria-labelledby="photo-label">
+    <div class="section-label" id="photo-label">What I Saw.</div>
+    <!-- <p class="intro">What I Saw.</p> -->
+  </section>
+
+  <!-- Gallery breaks out of the 760px .wrap constraint to fill the viewport. -->
+  <div class="photo-breakout">
+    <Gallery photos={photos} client:visible />
+  </div>
+</PageLayout>
+
+<style>
+  .photo {
+    margin-bottom: 32px;
+  }
+
+  .intro {
+    font-size: 16px;
+    color: hsl(var(--theme-text) / 0.72);
+    margin: 0;
+    font-family: var(--font-sans);
+  }
+
+  /*
+    Standard full-bleed breakout technique: position relative + left 50% +
+    negative 50vw margins escape both the .wrap padding and its max-width cap.
+    Works because html/body have overflow-x: hidden in Base.astro.
+  */
+  .photo-breakout {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding-left: max(2.5vw, 16px);
+    padding-right: max(2.5vw, 16px);
+    padding-bottom: 48px;
+  }
+
+  @media (max-width: 720px) {
+    .photo-breakout {
+      padding-left: max(2.5vw, 12px);
+      padding-right: max(2.5vw, 12px);
+      padding-bottom: 32px;
+    }
+  }
+</style>
